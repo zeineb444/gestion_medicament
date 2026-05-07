@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0"
+            xmlns="http://javafx.com/javafx/26"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.DetailMedicamentController">
+   <children>
+      <AnchorPane prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="211.0" layoutY="14.0" text="Détail Médicament" textFill="#080101">
+               <font>
+                  <Font name="Arial Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label layoutX="46.0" layoutY="41.0" text="Nom :" />
+            <Label layoutX="30.0" layoutY="71.0" text="Description :" />
+            <Label layoutX="34.0" layoutY="102.0" text="Catégorie :" />
+            <Label layoutX="42.0" layoutY="135.0" text="Dosage : " />
+            <Label layoutX="42.0" layoutY="174.0" text="Forme : " />
+            <Label layoutX="22.0" layoutY="200.0" text="Quantité stock :" />
+            <Label layoutX="21.0" layoutY="232.0" text="Seuil minimum :" />
+            <Label layoutX="28.0" layoutY="267.0" text="Numéro lot : " />
+            <Label layoutX="31.0" layoutY="305.0" text="Quantité lot : " />
+            <Label layoutX="23.0" layoutY="338.0" text="Date expiration :" />
+            <Label layoutX="33.0" layoutY="368.0" text="Service :" />
+            <TextField fx:id="formeField" layoutX="121.0" layoutY="161.0" />
+            <TextField fx:id="stockField" layoutX="122.0" layoutY="196.0" />
+            <TextField fx:id="seuilField" layoutX="122.0" layoutY="228.0" />
+            <TextField fx:id="lotField" layoutX="122.0" layoutY="263.0" />
+            <TextField fx:id="quantiteLotField" layoutX="122.0" layoutY="301.0" />
+            <TextField fx:id="dateField" layoutX="122.0" layoutY="334.0" />
+            <TextField fx:id="serviceField" layoutX="121.0" layoutY="364.0" />
+            <TextField fx:id="dosageField" layoutX="121.0" layoutY="131.0" />
+            <TextField fx:id="categorieField" layoutX="123.0" layoutY="98.0" />
+            <TextField fx:id="descriptionField" layoutX="122.0" layoutY="67.0" />
+            <TextField fx:id="nomField" layoutX="123.0" layoutY="37.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
