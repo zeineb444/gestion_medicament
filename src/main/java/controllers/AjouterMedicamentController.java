@@ -2,13 +2,10 @@ package controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import models.Medicament;
 import service.MedicamentService;
 
@@ -61,16 +58,7 @@ public class AjouterMedicamentController {
             alert.setContentText("Médicament ajouté avec succès");
             alert.showAndWait();
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/DetailMedicament.fxml"));
-            Parent root = loader.load();
 
-            DetailMedicamentController controller = loader.getController();
-            controller.setMedicament(medicament);
-
-            Stage stage = new Stage();
-            stage.setTitle("Détail Médicament");
-            stage.setScene(new Scene(root));
-            stage.show();
 
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);

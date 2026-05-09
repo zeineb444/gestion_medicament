@@ -17,7 +17,7 @@ public class Home extends Application {
         primaryStage = stage;
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/AjouterMedicament.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/SuiviMedical.fxml"));
             Scene scene = new Scene(root);
 
             stage.setTitle("Gestion Médicament");

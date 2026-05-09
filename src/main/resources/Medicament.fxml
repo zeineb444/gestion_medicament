@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.Circle?>
+
+<AnchorPane prefHeight="720.0"
+            prefWidth="1100.0"
+            style="-fx-background-color: linear-gradient(to bottom right, #EAF6FF, #F6FBFF, #E8F5E9);"
+            xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="controllers.MedicamentController">
+
+    <children>
+
+        <Circle layoutX="70" layoutY="70" radius="45" fill="#B3E5FC" opacity="0.45"/>
+        <Circle layoutX="1030" layoutY="90" radius="60" fill="#C8E6C9" opacity="0.35"/>
+        <Circle layoutX="980" layoutY="660" radius="70" fill="#BBDEFB" opacity="0.25"/>
+
+        <Label layoutX="350.0"
+               layoutY="25.0"
+               text="💊 Gestion des Médicaments"
+               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #1B4965;" />
+
+        <!-- FORMULAIRE -->
+
+        <Pane layoutX="50.0"
+              layoutY="85.0"
+              prefHeight="300.0"
+              prefWidth="1000.0"
+              style="-fx-background-color: rgba(255,255,255,0.9);
+                     -fx-background-radius: 24;
+                     -fx-border-radius: 24;
+                     -fx-border-color: #B3E5FC;
+                     -fx-border-width: 2;">
+
+            <children>
+
+                <Label layoutX="35.0"
+                       layoutY="22.0"
+                       text="Informations médicament"
+                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1B4965;" />
+
+                <Label layoutX="40.0" layoutY="65.0" text="Nom :" />
+                <TextField fx:id="nomField"
+                           layoutX="160.0"
+                           layoutY="58.0"
+                           prefWidth="260.0"
+                           promptText="Nom" />
+
+                <Label layoutX="40.0" layoutY="110.0" text="Description :" />
+                <TextField fx:id="descriptionField"
+                           layoutX="160.0"
+                           layoutY="103.0"
+                           prefWidth="260.0"
+                           promptText="Description" />
+
+                <Label layoutX="40.0" layoutY="155.0" text="Catégorie :" />
+                <TextField fx:id="categorieField"
+                           layoutX="160.0"
+                           layoutY="148.0"
+                           prefWidth="260.0"
+                           promptText="Catégorie" />
+
+                <Label layoutX="40.0" layoutY="200.0" text="Dosage :" />
+                <TextField fx:id="dosageField"
+                           layoutX="160.0"
+                           layoutY="193.0"
+                           prefWidth="260.0"
+                           promptText="Dosage" />
+
+                <Label layoutX="40.0" layoutY="245.0" text="Forme :" />
+                <TextField fx:id="formeField"
+                           layoutX="160.0"
+                           layoutY="238.0"
+                           prefWidth="260.0"
+                           promptText="Forme" />
+
+                <Label layoutX="540.0" layoutY="65.0" text="Quantité stock :" />
+                <TextField fx:id="stockField"
+                           layoutX="700.0"
+                           layoutY="58.0"
+                           prefWidth="230.0"
+                           promptText="Quantité stock" />
+
+                <Label layoutX="540.0" layoutY="110.0" text="Seuil minimum :" />
+                <TextField fx:id="seuilField"
+                           layoutX="700.0"
+                           layoutY="103.0"
+                           prefWidth="230.0"
+                           promptText="Seuil minimum" />
+
+                <Label layoutX="540.0" layoutY="155.0" text="Numéro lot :" />
+                <TextField fx:id="lotField"
+                           layoutX="700.0"
+                           layoutY="148.0"
+                           prefWidth="230.0"
+                           promptText="Numéro lot" />
+
+                <Label layoutX="540.0" layoutY="200.0" text="Quantité lot :" />
+                <TextField fx:id="quantiteLotField"
+                           layoutX="700.0"
+                           layoutY="193.0"
+                           prefWidth="230.0"
+                           promptText="Quantité lot" />
+
+                <Label layoutX="540.0" layoutY="245.0" text="Date expiration :" />
+                <TextField fx:id="dateField"
+                           layoutX="700.0"
+                           layoutY="238.0"
+                           prefWidth="230.0"
+                           promptText="yyyy-mm-dd" />
+
+            </children>
+        </Pane>
+
+        <!-- BOUTONS -->
+
+        <Pane layoutX="50.0"
+              layoutY="405.0"
+              prefHeight="70.0"
+              prefWidth="1000.0"
+              style="-fx-background-color: rgba(255,255,255,0.9);
+                     -fx-background-radius: 22;
+                     -fx-border-radius: 22;
+                     -fx-border-color: #C8E6C9;
+                     -fx-border-width: 2;">
+
+            <children>
+
+                <Label layoutX="40.0" layoutY="25.0" text="Service :" />
+
+                <TextField fx:id="serviceField"
+                           layoutX="120.0"
+                           layoutY="18.0"
+                           prefWidth="250.0"
+                           promptText="Service" />
+
+                <Button fx:id="ajouterBtn"
+                        layoutX="430.0"
+                        layoutY="18.0"
+                        prefWidth="120.0"
+                        text="➕ Ajouter"
+                        onAction="#ajouterMedicament"
+                        style="-fx-background-color: #42A5F5;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;" />
+
+                <Button fx:id="modifierBtn"
+                        layoutX="570.0"
+                        layoutY="18.0"
+                        prefWidth="120.0"
+                        text="✏️ Modifier"
+                        onAction="#modifierMedicament"
+                        style="-fx-background-color: #66BB6A;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;" />
+
+                <Button fx:id="supprimerBtn"
+                        layoutX="710.0"
+                        layoutY="18.0"
+                        prefWidth="120.0"
+                        text="🗑️ Supprimer"
+                        onAction="#supprimerMedicament"
+                        style="-fx-background-color: #EF5350;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;" />
+
+                <Button fx:id="resetBtn"
+                        layoutX="850.0"
+                        layoutY="18.0"
+                        prefWidth="100.0"
+                        text="🔄 Reset"
+                        onAction="#resetForm"
+                        style="-fx-background-color: #AB47BC;
+                               -fx-text-fill: white;
+                               -fx-font-weight: bold;" />
+
+            </children>
+        </Pane>
+
+        <!-- TABLEAU -->
+
+        <Pane layoutX="50.0"
+              layoutY="500.0"
+              prefHeight="180.0"
+              prefWidth="1000.0"
+              style="-fx-background-color: rgba(255,255,255,0.92);
+                     -fx-background-radius: 24;
+                     -fx-border-radius: 24;
+                     -fx-border-color: #B3E5FC;
+                     -fx-border-width: 2;">
+
+            <children>
+
+                <Label layoutX="35.0"
+                       layoutY="15.0"
+                       text="Liste des médicaments"
+                       style="-fx-font-size: 18px;
+                              -fx-font-weight: bold;
+                              -fx-text-fill: #1B4965;" />
+
+                <TableView fx:id="medicamentTable"
+                           layoutX="20.0"
+                           layoutY="50.0"
+                           prefHeight="110.0"
+                           prefWidth="960.0">
+
+                    <columns>
+
+                        <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0" />
+                        <TableColumn fx:id="nomColumn" text="Nom" prefWidth="120.0" />
+                        <TableColumn fx:id="categorieColumn" text="Catégorie" prefWidth="100.0" />
+                        <TableColumn fx:id="dosageColumn" text="Dosage" prefWidth="85.0" />
+                        <TableColumn fx:id="formeColumn" text="Forme" prefWidth="85.0" />
+                        <TableColumn fx:id="stockColumn" text="Stock" prefWidth="80.0" />
+                        <TableColumn fx:id="seuilColumn" text="Seuil" prefWidth="80.0" />
+                        <TableColumn fx:id="lotColumn" text="Lot" prefWidth="100.0" />
+                        <TableColumn fx:id="quantiteLotColumn" text="Qté Lot" prefWidth="80.0" />
+                        <TableColumn fx:id="dateColumn" text="Expiration" prefWidth="120.0" />
+                        <TableColumn fx:id="serviceColumn" text="Service" prefWidth="110.0" />
+
+                    </columns>
+
+                </TableView>
+
+            </children>
+        </Pane>
+
+    </children>
+
+</AnchorPane>
