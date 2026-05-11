@@ -100,4 +100,47 @@ public class MedicamentService implements IService<Medicament> {
 
         return medicaments;
     }
+    public List<Medicament> rechercher(String nom,
+                                       String categorie,
+                                       String service) throws SQLException {
+
+        List<Medicament> medicaments = new ArrayList<>();
+
+        String sql = "SELECT * FROM medicaments " +
+                "WHERE nom LIKE ? " +
+                "AND categorie LIKE ? " +
+                "AND service_nom LIKE ?";
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+
+        ps.setString(1, "%" + nom + "%");
+        ps.setString(2, "%" + categorie + "%");
+        ps.setString(3, "%" + service + "%");
+
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+
+            Medicament m = new Medicament();
+
+            m.setId(rs.getInt("id"));
+            m.setNom(rs.getString("nom"));
+            m.setDescription(rs.getString("description"));
+            m.setCategorie(rs.getString("categorie"));
+            m.setDosage(rs.getString("dosage"));
+            m.setForme(rs.getString("forme"));
+            m.setQuantiteStock(rs.getInt("quantite_stock"));
+            m.setSeuilMinimum(rs.getInt("seuil_minimum"));
+            m.setNumeroLot(rs.getString("numero_lot"));
+            m.setQuantiteLot(rs.getInt("quantite_lot"));
+            m.setDateExpiration(rs.getDate("date_expiration"));
+            m.setServiceNom(rs.getString("service_nom"));
+            m.setEtatStock(rs.getString("etat_stock"));
+            m.setAlerteExpiration(rs.getString("alerte_expiration"));
+
+            medicaments.add(m);
+        }
+
+        return medicaments;
+    }
 }

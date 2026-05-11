@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1500.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.MainController">
+
+    <!-- SIDEBAR -->
+    <VBox fx:id="sidebar"
+          prefWidth="250.0"
+          prefHeight="700.0"
+          spacing="18"
+          style="-fx-background-color:#3b1f0e;">
+
+        <padding>
+            <Insets top="20" left="20"/>
+        </padding>
+
+        <!-- TOP -->
+        <HBox spacing="15">
+
+            <Button text="☰"
+                    onAction="#toggleSidebar"
+                    style="-fx-background-color:#6b3e1f;
+                           -fx-text-fill:white;
+                           -fx-font-size:22;
+                           -fx-background-radius:10;" />
+
+            <Label text="🏥 HospitaLink"
+                   style="-fx-text-fill:#f5ede4;
+                          -fx-font-size:22;
+                          -fx-font-weight:bold;" />
+
+        </HBox>
+
+        <Label text=""
+               prefHeight="15"/>
+
+        <!-- NAVIGATION -->
+        <Label text="NAVIGATION"
+               style="-fx-text-fill:#b78b63;
+                      -fx-font-size:14;
+                      -fx-font-weight:bold;" />
+
+        <!-- DASHBOARD -->
+        <Button fx:id="dashboardBtn"
+                text="📊 Dashboard"
+                onAction="#showDashboard"
+                prefWidth="190"
+                style="-fx-background-color:#c49a6c;
+                       -fx-text-fill:white;
+                       -fx-background-radius:10;
+                       -fx-font-size:15;" />
+
+        <!-- MEDICAMENT -->
+        <Button fx:id="medicamentBtn"
+                text="💊 Médicaments"
+                onAction="#showMedicaments"
+                prefWidth="190"
+                style="-fx-background-color:transparent;
+                       -fx-text-fill:white;
+                       -fx-font-size:15;" />
+
+        <!-- SUIVI -->
+        <Button fx:id="suiviBtn"
+                text="🩺 Suivi Médical"
+                onAction="#showSuiviMedical"
+                prefWidth="190"
+                style="-fx-background-color:transparent;
+                       -fx-text-fill:white;
+                       -fx-font-size:15;" />
+
+        <!-- EMAIL -->
+        <Button fx:id="emailBtn"
+                text="✉ Emails envoyés"
+                onAction="#showEmails"
+                prefWidth="190"
+                style="-fx-background-color:transparent;
+                       -fx-text-fill:white;
+                       -fx-font-size:15;" />
+
+    </VBox>
+
+    <!-- CONTENT -->
+    <ScrollPane layoutX="250.0"
+                prefHeight="900.0"
+                prefWidth="1250.0"
+                fitToWidth="true"
+                pannable="true"
+                vbarPolicy="ALWAYS"
+                style="-fx-background:#f5ede4;">
+
+        <content>
+
+            <AnchorPane fx:id="contentPane"
+                        prefHeight="950.0"
+                        prefWidth="1250.0"
+                        style="-fx-background-color:#f5ede4;" />
+
+        </content>
+
+    </ScrollPane>
+
+</AnchorPane>
