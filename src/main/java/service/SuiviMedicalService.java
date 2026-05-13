@@ -7,23 +7,22 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuiviMedicalService implements IService<SuiviMedical> {
+public class SuiviMedicalService {
 
-    private Connection connection;
+    private final Connection connection;
 
     public SuiviMedicalService() {
         connection = MyDataBase.getInstance().getConnection();
     }
 
-    @Override
     public void ajouter(SuiviMedical s) throws SQLException {
+        String req = """
+                INSERT INTO suivi_medical
+                (medicament_id, nom_patient, date_suivi, observation, etat_patient)
+                VALUES (?, ?, ?, ?, ?)
+                """;
 
-        String sql = "INSERT INTO suivi_medical " +
-                "(medicament_id, nom_patient, date_suivi, observation, etat_patient) " +
-                "VALUES (?, ?, ?, ?, ?)";
-
-        PreparedStatement ps = connection.prepareStatement(sql);
-
+        PreparedStatement ps = connection.prepareStatement(req);
         ps.setInt(1, s.getMedicamentId());
         ps.setString(2, s.getNomPatient());
         ps.setDate(3, s.getDateSuivi());
@@ -33,15 +32,18 @@ public class SuiviMedicalService implements IService<SuiviMedical> {
         ps.executeUpdate();
     }
 
-    @Override
     public void modifier(SuiviMedical s) throws SQLException {
+        String req = """
+                UPDATE suivi_medical
+                SET medicament_id = ?,
+                    nom_patient = ?,
+                    date_suivi = ?,
+                    observation = ?,
+                    etat_patient = ?
+                WHERE id = ?
+                """;
 
-        String sql = "UPDATE suivi_medical SET " +
-                "medicament_id=?, nom_patient=?, date_suivi=?, observation=?, etat_patient=? " +
-                "WHERE id=?";
-
-        PreparedStatement ps = connection.prepareStatement(sql);
-
+        PreparedStatement ps = connection.prepareStatement(req);
         ps.setInt(1, s.getMedicamentId());
         ps.setString(2, s.getNomPatient());
         ps.setDate(3, s.getDateSuivi());
@@ -52,43 +54,40 @@ public class SuiviMedicalService implements IService<SuiviMedical> {
         ps.executeUpdate();
     }
 
-    @Override
     public void supprimer(int id) throws SQLException {
+        String req = "DELETE FROM suivi_medical WHERE id = ?";
 
-        String sql = "DELETE FROM suivi_medical WHERE id=?";
-
-        PreparedStatement ps = connection.prepareStatement(sql);
-
+        PreparedStatement ps = connection.prepareStatement(req);
         ps.setInt(1, id);
-
         ps.executeUpdate();
     }
 
-    @Override
     public List<SuiviMedical> recuperer() throws SQLException {
+        List<SuiviMedical> list = new ArrayList<>();
 
-        List<SuiviMedical> suivis = new ArrayList<>();
-
-        String sql = "SELECT * FROM suivi_medical";
+        String req = """
+                SELECT sm.*, m.nom AS medicament_nom
+                FROM suivi_medical sm
+                JOIN medicaments m ON sm.medicament_id = m.id
+                """;
 
         Statement st = connection.createStatement();
-
-        ResultSet rs = st.executeQuery(sql);
+        ResultSet rs = st.executeQuery(req);
 
         while (rs.next()) {
-
             SuiviMedical s = new SuiviMedical();
 
             s.setId(rs.getInt("id"));
             s.setMedicamentId(rs.getInt("medicament_id"));
+            s.setMedicamentNom(rs.getString("medicament_nom"));
             s.setNomPatient(rs.getString("nom_patient"));
             s.setDateSuivi(rs.getDate("date_suivi"));
             s.setObservation(rs.getString("observation"));
             s.setEtatPatient(rs.getString("etat_patient"));
 
-            suivis.add(s);
+            list.add(s);
         }
 
-        return suivis;
+        return list;
     }
 }

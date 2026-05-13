@@ -4,156 +4,163 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Circle?>
 
-<AnchorPane prefHeight="650.0"
-            prefWidth="950.0"
-            style="-fx-background-color: linear-gradient(to bottom right, #FFF3E0, #FFF8E1, #E3F2FD);"
-            xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<AnchorPane prefHeight="1330.0"
+            prefWidth="1250.0"
+            style="-fx-background-color:#f5ede4;"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.SuiviMedicalController">
 
-    <children>
+    <Circle layoutX="90" layoutY="80" radius="55" fill="#FFE0B2" opacity="0.45"/>
+    <Circle layoutX="1080" layoutY="95" radius="65" fill="#BBDEFB" opacity="0.35"/>
 
-        <Circle layoutX="70" layoutY="70" radius="45" fill="#FFD6A5" opacity="0.45"/>
-        <Circle layoutX="890" layoutY="90" radius="60" fill="#BBDEFB" opacity="0.35"/>
+    <Label layoutX="50" layoutY="35"
+           text="🩺 Gestion du Suivi Médical"
+           style="-fx-font-size:30; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-        <Label layoutX="310.0"
-               layoutY="25.0"
-               text="🩺 Gestion du Suivi Médical"
-               style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #6D4C41;" />
+    <!-- STATISTIQUES -->
+    <Pane layoutX="50" layoutY="100" prefWidth="1150" prefHeight="160"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-        <Pane layoutX="50.0"
-              layoutY="90.0"
-              prefHeight="250.0"
-              prefWidth="850.0"
-              style="-fx-background-color: rgba(255,255,255,0.92);
-                     -fx-background-radius: 24;
-                     -fx-border-radius: 24;
-                     -fx-border-color: #FFD6A5;
-                     -fx-border-width: 2;">
+        <Label layoutX="25" layoutY="18" text="📊 Statistiques Suivis"
+               style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-            <children>
+        <VBox layoutX="70" layoutY="62" prefWidth="300" prefHeight="75" alignment="CENTER" spacing="5"
+              style="-fx-background-color:#fdf8f4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+            <Label fx:id="ameliorationLabel" text="0"
+                   style="-fx-font-size:26; -fx-font-weight:bold; -fx-text-fill:#28A745;" />
+            <Label text="Amélioration" style="-fx-text-fill:#7A5535;" />
+        </VBox>
 
-                <Label layoutX="35.0"
-                       layoutY="22.0"
-                       text="Informations suivi médical"
-                       style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #6D4C41;" />
+        <VBox layoutX="425" layoutY="62" prefWidth="300" prefHeight="75" alignment="CENTER" spacing="5"
+              style="-fx-background-color:#fdf8f4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+            <Label fx:id="stableLabel" text="0"
+                   style="-fx-font-size:26; -fx-font-weight:bold; -fx-text-fill:#B7791F;" />
+            <Label text="Stable" style="-fx-text-fill:#7A5535;" />
+        </VBox>
 
-                <Label layoutX="50.0" layoutY="70.0" text="ID Médicament :" />
-                <TextField fx:id="medicamentIdField"
-                           layoutX="180.0"
-                           layoutY="63.0"
-                           prefWidth="230.0"
-                           promptText="ID médicament" />
+        <VBox layoutX="780" layoutY="62" prefWidth="300" prefHeight="75" alignment="CENTER" spacing="5"
+              style="-fx-background-color:#fdf8f4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+            <Label fx:id="critiqueLabel" text="0"
+                   style="-fx-font-size:26; -fx-font-weight:bold; -fx-text-fill:#DC3545;" />
+            <Label text="Critique" style="-fx-text-fill:#7A5535;" />
+        </VBox>
+    </Pane>
 
-                <Label layoutX="50.0" layoutY="120.0" text="Nom Patient :" />
-                <TextField fx:id="nomPatientField"
-                           layoutX="180.0"
-                           layoutY="113.0"
-                           prefWidth="230.0"
-                           promptText="Nom patient" />
+    <!-- FORMULAIRE -->
+    <Pane layoutX="50" layoutY="290" prefWidth="560" prefHeight="340"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-                <Label layoutX="50.0" layoutY="170.0" text="Date Suivi :" />
-                <TextField fx:id="dateSuiviField"
-                           layoutX="180.0"
-                           layoutY="163.0"
-                           prefWidth="230.0"
-                           promptText="yyyy-mm-dd" />
+        <Label layoutX="30" layoutY="22" text="📋 Informations Suivi"
+               style="-fx-font-size:20; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-                <Label layoutX="470.0" layoutY="70.0" text="Observation :" />
-                <TextField fx:id="observationField"
-                           layoutX="590.0"
-                           layoutY="63.0"
-                           prefWidth="230.0"
-                           promptText="Observation" />
+        <Label layoutX="35" layoutY="72" text="Médicament :" />
+        <ComboBox fx:id="medicamentBox" layoutX="170" layoutY="65" prefWidth="330"
+                  promptText="Choisir un médicament"
+                  style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;" />
 
-                <Label layoutX="470.0" layoutY="120.0" text="État Patient :" />
-                <TextField fx:id="etatPatientField"
-                           layoutX="590.0"
-                           layoutY="113.0"
-                           prefWidth="230.0"
-                           promptText="AMELIORATION / STABLE / CRITIQUE" />
+        <Label layoutX="35" layoutY="115" text="Nom Patient :" />
+        <TextField fx:id="nomPatientField" layoutX="170" layoutY="108" prefWidth="330"
+                   promptText="Nom complet"
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;" />
 
-                <Button fx:id="ajouterBtn"
-                        layoutX="115.0"
-                        layoutY="205.0"
-                        prefWidth="120.0"
-                        text="➕ Ajouter"
-                        onAction="#ajouterSuivi"
-                        style="-fx-background-color: #42A5F5;
-                               -fx-text-fill: white;
-                               -fx-font-weight: bold;" />
+        <Label layoutX="35" layoutY="158" text="Date Suivi :" />
+        <TextField fx:id="dateSuiviField" layoutX="170" layoutY="151" prefWidth="330"
+                   promptText="yyyy-mm-dd"
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;" />
 
-                <Button fx:id="modifierBtn"
-                        layoutX="275.0"
-                        layoutY="205.0"
-                        prefWidth="120.0"
-                        text="✏️ Modifier"
-                        onAction="#modifierSuivi"
-                        style="-fx-background-color: #66BB6A;
-                               -fx-text-fill: white;
-                               -fx-font-weight: bold;" />
+        <Label layoutX="35" layoutY="201" text="Observation :" />
+        <TextField fx:id="observationField" layoutX="170" layoutY="194" prefWidth="330"
+                   promptText="Observation clinique"
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;" />
 
-                <Button fx:id="supprimerBtn"
-                        layoutX="435.0"
-                        layoutY="205.0"
-                        prefWidth="120.0"
-                        text="🗑️ Supprimer"
-                        onAction="#supprimerSuivi"
-                        style="-fx-background-color: #EF5350;
-                               -fx-text-fill: white;
-                               -fx-font-weight: bold;" />
+        <Label layoutX="35" layoutY="244" text="État Patient :" />
+        <ComboBox fx:id="etatPatientField" layoutX="170" layoutY="237" prefWidth="330"
+                  promptText="Choisir"
+                  style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;" />
 
-                <Button fx:id="resetBtn"
-                        layoutX="595.0"
-                        layoutY="205.0"
-                        prefWidth="120.0"
-                        text="🔄 Reset"
-                        onAction="#resetForm"
-                        style="-fx-background-color: #AB47BC;
-                               -fx-text-fill: white;
-                               -fx-font-weight: bold;" />
+        <HBox layoutX="65" layoutY="290" spacing="15">
+            <Button fx:id="ajouterBtn" text="➕ Ajouter" onAction="#ajouterSuivi" prefWidth="110"
+                    style="-fx-background-color:#A07850; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;" />
+            <Button fx:id="modifierBtn" text="✏ Modifier" onAction="#modifierSuivi" prefWidth="110"
+                    style="-fx-background-color:#8B633F; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;" />
+            <Button fx:id="supprimerBtn" text="🗑 Supprimer" onAction="#supprimerSuivi" prefWidth="120"
+                    style="-fx-background-color:#6B3E1F; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;" />
+            <Button fx:id="resetBtn" text="↻ Reset" onAction="#resetForm" prefWidth="90"
+                    style="-fx-background-color:#E8D5B8; -fx-text-fill:#7A5535; -fx-background-radius:20; -fx-font-weight:bold;" />
+        </HBox>
+    </Pane>
 
-            </children>
-        </Pane>
+    <!-- RECHERCHE -->
+    <Pane layoutX="640" layoutY="290" prefWidth="560" prefHeight="240"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-        <Pane layoutX="50.0"
-              layoutY="370.0"
-              prefHeight="230.0"
-              prefWidth="850.0"
-              style="-fx-background-color: rgba(255,255,255,0.92);
-                     -fx-background-radius: 24;
-                     -fx-border-radius: 24;
-                     -fx-border-color: #BBDEFB;
-                     -fx-border-width: 2;">
+        <Label layoutX="30" layoutY="22" text="🔍 Recherche Suivi"
+               style="-fx-font-size:20; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-            <children>
+        <Label layoutX="35" layoutY="72" text="Nom Patient" />
+        <TextField fx:id="recherchePatientField" layoutX="35" layoutY="97" prefWidth="490"
+                   promptText="Rechercher un patient..."
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;" />
 
-                <Label layoutX="35.0"
-                       layoutY="15.0"
-                       text="Liste des suivis médicaux"
-                       style="-fx-font-size: 18px;
-                              -fx-font-weight: bold;
-                              -fx-text-fill: #6D4C41;" />
+        <Label layoutX="35" layoutY="138" text="État" />
+        <ComboBox fx:id="rechercheEtatField" layoutX="35" layoutY="163" prefWidth="490"
+                  promptText="Tous les états"
+                  style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;" />
 
-                <TableView fx:id="suiviTable"
-                           layoutX="20.0"
-                           layoutY="55.0"
-                           prefHeight="150.0"
-                           prefWidth="810.0">
+        <Button layoutX="35" layoutY="202" text="🔍 Rechercher" onAction="#rechercherSuivis" prefWidth="130"
+                style="-fx-background-color:#A07850; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;" />
 
-                    <columns>
-                        <TableColumn fx:id="idColumn" text="ID" prefWidth="50.0" />
-                        <TableColumn fx:id="medicamentIdColumn" text="ID Médicament" prefWidth="120.0" />
-                        <TableColumn fx:id="nomPatientColumn" text="Nom Patient" prefWidth="160.0" />
-                        <TableColumn fx:id="dateSuiviColumn" text="Date Suivi" prefWidth="120.0" />
-                        <TableColumn fx:id="observationColumn" text="Observation" prefWidth="220.0" />
-                        <TableColumn fx:id="etatPatientColumn" text="État Patient" prefWidth="140.0" />
-                    </columns>
+        <Button layoutX="180" layoutY="202" text="Effacer" onAction="#afficherTousSuivis" prefWidth="100"
+                style="-fx-background-color:#E8D5B8; -fx-text-fill:#7A5535; -fx-background-radius:20; -fx-font-weight:bold;" />
+    </Pane>
 
-                </TableView>
+    <!-- TABLEAU -->
+    <Pane layoutX="50" layoutY="660" prefWidth="1150" prefHeight="280"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-            </children>
-        </Pane>
+        <Label layoutX="30" layoutY="22" text="☰ Liste des Suivis"
+               style="-fx-font-size:20; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-    </children>
+        <TableView fx:id="suiviTable" layoutX="30" layoutY="65" prefWidth="1060" prefHeight="190"
+                   style="-fx-background-color:#fffaf5;
+                          -fx-control-inner-background:#fffaf5;
+                          -fx-table-cell-border-color:#E8D8C8;
+                          -fx-border-color:transparent;
+                          -fx-background-insets:0;">
+
+            <columns>
+                <TableColumn fx:id="idColumn" text="ID" prefWidth="60"/>
+                <TableColumn fx:id="medicamentNomColumn" text="Médicament" prefWidth="170"/>
+                <TableColumn fx:id="nomPatientColumn" text="Nom Patient" prefWidth="190"/>
+                <TableColumn fx:id="dateSuiviColumn" text="Date Suivi" prefWidth="140"/>
+                <TableColumn fx:id="observationColumn" text="Observation" prefWidth="340"/>
+                <TableColumn fx:id="etatPatientColumn" text="État Patient" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </Pane>
+
+    <!-- HISTORIQUE PATIENT -->
+    <Pane layoutX="50" layoutY="970" prefWidth="1150" prefHeight="330"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
+
+        <Label layoutX="30" layoutY="25" text="Historique Patient"
+               style="-fx-font-size:22; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+
+        <Label layoutX="30" layoutY="85" text="Choisir un patient :"
+               style="-fx-font-size:15; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+
+        <ComboBox fx:id="historiquePatientCombo" layoutX="190" layoutY="78" prefWidth="250"
+                  promptText="-- Sélectionner --"
+                  style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;" />
+
+        <VBox fx:id="historiqueBox"
+              layoutX="60"
+              layoutY="125"
+              prefWidth="1050"
+              prefHeight="180">
+
+        </VBox>
+    </Pane>
+
 </AnchorPane>

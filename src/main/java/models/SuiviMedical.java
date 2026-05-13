@@ -10,6 +10,7 @@ public class SuiviMedical {
     private Date dateSuivi;
     private String observation;
     private String etatPatient;
+    private String medicamentNom;
 
     public SuiviMedical() {
     }
@@ -94,5 +95,12 @@ public class SuiviMedical {
                 ", dateSuivi=" + dateSuivi +
                 ", etatPatient='" + etatPatient + '\'' +
                 '}';
+    }
+    public String getMedicamentNom() {
+        return medicamentNom;
+    }
+
+    public void setMedicamentNom(String medicamentNom) {
+        this.medicamentNom = medicamentNom;
     }
 }

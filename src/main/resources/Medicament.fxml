@@ -3,191 +3,204 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="1250.0"
+<AnchorPane prefHeight="1380.0"
             prefWidth="1250.0"
             style="-fx-background-color:#f5ede4;"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.MedicamentController">
 
-    <Label layoutX="45" layoutY="25"
+    <Label layoutX="45" layoutY="20"
            text="💊 Gestion des Médicaments"
-           style="-fx-font-size:26; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+           style="-fx-font-size:30; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
     <!-- STATISTIQUES -->
-    <Pane layoutX="30" layoutY="75" prefWidth="1180" prefHeight="330"
-          style="-fx-background-color:#fffaf5; -fx-background-radius:14; -fx-border-color:#D4B99A; -fx-border-radius:14;">
+    <Pane layoutX="35" layoutY="80" prefWidth="1180" prefHeight="420"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-        <Label layoutX="25" layoutY="15" text="📊 Statistiques du Stock"
-               style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+        <Label layoutX="25" layoutY="25" text="📊 Statistiques du Stock"
+               style="-fx-font-size:22; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-        <HBox layoutX="25" layoutY="55" spacing="18">
-            <VBox prefWidth="260" prefHeight="70" style="-fx-background-color:#fdf8f4; -fx-background-radius:10; -fx-border-color:#D4B99A; -fx-border-radius:10; -fx-alignment:center;">
-                <Label fx:id="totalMedLabel" text="0" style="-fx-font-size:24; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
-                <Label text="Total" />
+        <Separator layoutX="25" layoutY="62" prefWidth="1130"/>
+
+        <HBox layoutX="25" layoutY="85" spacing="18">
+            <VBox prefWidth="250" prefHeight="90" alignment="CENTER"
+                  style="-fx-background-color:#f5ede4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+                <Label fx:id="totalMedLabel" text="0"
+                       style="-fx-font-size:30; -fx-font-weight:bold; -fx-text-fill:#7A5535;"/>
+                <Label text="Total"/>
             </VBox>
 
-            <VBox prefWidth="260" prefHeight="70" style="-fx-background-color:#fdf8f4; -fx-background-radius:10; -fx-border-color:#D4B99A; -fx-border-radius:10; -fx-alignment:center;">
-                <Label fx:id="okMedLabel" text="0" style="-fx-font-size:24; -fx-font-weight:bold; -fx-text-fill:#27AE60;" />
-                <Label text="Suffisant" />
+            <VBox prefWidth="250" prefHeight="90" alignment="CENTER"
+                  style="-fx-background-color:#f5ede4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+                <Label fx:id="okMedLabel" text="0"
+                       style="-fx-font-size:30; -fx-font-weight:bold; -fx-text-fill:#1B7F35;"/>
+                <Label text="Suffisant"/>
             </VBox>
 
-            <VBox prefWidth="260" prefHeight="70" style="-fx-background-color:#fdf8f4; -fx-background-radius:10; -fx-border-color:#D4B99A; -fx-border-radius:10; -fx-alignment:center;">
-                <Label fx:id="faibleMedLabel" text="0" style="-fx-font-size:24; -fx-font-weight:bold; -fx-text-fill:#D68910;" />
-                <Label text="Faible" />
+            <VBox prefWidth="250" prefHeight="90" alignment="CENTER"
+                  style="-fx-background-color:#f5ede4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+                <Label fx:id="faibleMedLabel" text="0"
+                       style="-fx-font-size:30; -fx-font-weight:bold; -fx-text-fill:#C0392B;"/>
+                <Label text="Faible"/>
             </VBox>
 
-            <VBox prefWidth="260" prefHeight="70" style="-fx-background-color:#fdf8f4; -fx-background-radius:10; -fx-border-color:#D4B99A; -fx-border-radius:10; -fx-alignment:center;">
-                <Label fx:id="expirationMedLabel" text="0" style="-fx-font-size:24; -fx-font-weight:bold; -fx-text-fill:#C0392B;" />
-                <Label text="Expire bientôt" />
+            <VBox prefWidth="250" prefHeight="90" alignment="CENTER"
+                  style="-fx-background-color:#f5ede4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+                <Label fx:id="expirationMedLabel" text="0"
+                       style="-fx-font-size:30; -fx-font-weight:bold; -fx-text-fill:#D35400;"/>
+                <Label text="Expirés bientôt"/>
             </VBox>
         </HBox>
 
-        <VBox fx:id="stockBarsBox"
-              layoutX="25"
-              layoutY="145"
-              spacing="8"
-              prefWidth="1120"
-              prefHeight="120" />
+        <!-- BARRES DE STOCK AVEC SCROLL -->
+        <ScrollPane layoutX="25"
+                    layoutY="195"
+                    prefWidth="1130"
+                    prefHeight="150"
+                    fitToWidth="true"
+                    hbarPolicy="NEVER"
+                    vbarPolicy="AS_NEEDED"
+                    style="-fx-background:transparent; -fx-background-color:transparent;">
 
-        <HBox layoutX="25" layoutY="280" spacing="15">
-            <Button text="⚠ Stock faible"
-                    onAction="#filtrerStockFaible"
-                    prefWidth="150"
-                    prefHeight="35"
-                    style="-fx-background-color:#FFF3CD; -fx-text-fill:#856404; -fx-background-radius:20; -fx-border-color:#FFC107; -fx-border-radius:20; -fx-font-weight:bold;" />
+            <content>
+                <VBox fx:id="stockBarsBox"
+                      prefWidth="1110"
+                      spacing="12"
+                      style="-fx-background-color:transparent;"/>
+            </content>
+        </ScrollPane>
 
+        <HBox layoutX="25" layoutY="365" spacing="20">
             <Button text="🔴 Bientôt expirés"
                     onAction="#filtrerExpiration"
-                    prefWidth="170"
-                    prefHeight="35"
-                    style="-fx-background-color:#F8D7DA; -fx-text-fill:#721C24; -fx-background-radius:20; -fx-border-color:#F5C6CB; -fx-border-radius:20; -fx-font-weight:bold;" />
+                    prefWidth="170" prefHeight="40"
+                    style="-fx-background-color:#F8D7DA; -fx-text-fill:#8B1E1E; -fx-background-radius:22; -fx-font-weight:bold;"/>
 
             <Button text="Tout afficher"
                     onAction="#afficherTousMedicaments"
-                    prefWidth="130"
-                    prefHeight="35"
-                    style="-fx-background-color:#E8D5B8; -fx-text-fill:#7A5535; -fx-background-radius:20; -fx-border-color:#D4B99A; -fx-border-radius:20; -fx-font-weight:bold;" />
+                    prefWidth="150" prefHeight="40"
+                    style="-fx-background-color:#E8D5B8; -fx-text-fill:#7A5535; -fx-background-radius:22; -fx-font-weight:bold;"/>
         </HBox>
     </Pane>
 
     <!-- RECHERCHE -->
-    <Pane layoutX="30" layoutY="430" prefWidth="580" prefHeight="290"
-          style="-fx-background-color:#fffaf5; -fx-background-radius:14; -fx-border-color:#D4B99A; -fx-border-radius:14;">
+    <Pane layoutX="35" layoutY="530" prefWidth="570" prefHeight="390"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-        <Label layoutX="25" layoutY="20" text="🔍 Recherche"
-               style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+        <Label layoutX="25" layoutY="25" text="🔍 Recherche"
+               style="-fx-font-size:22; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+        <Separator layoutX="25" layoutY="62" prefWidth="520"/>
 
-        <Label layoutX="25" layoutY="70" text="Nom du médicament" />
-        <TextField fx:id="rechercheNomField" layoutX="25" layoutY="92" prefWidth="520"
+        <Label layoutX="25" layoutY="90" text="Nom du médicament"/>
+        <TextField fx:id="rechercheNomField" layoutX="25" layoutY="115" prefWidth="520" prefHeight="38"
                    promptText="Ex: Paracetamol..."
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="25" layoutY="130" text="Catégorie" />
-        <ComboBox fx:id="rechercheCategorieField" layoutX="25" layoutY="152" prefWidth="520"
+        <Label layoutX="25" layoutY="165" text="Catégorie"/>
+        <ComboBox fx:id="rechercheCategorieField" layoutX="25" layoutY="190" prefWidth="520" prefHeight="38"
                   promptText="Toutes catégories"
-                  style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+                  style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="25" layoutY="190" text="Service" />
-        <ComboBox fx:id="rechercheServiceField" layoutX="25" layoutY="212" prefWidth="520"
+        <Label layoutX="25" layoutY="240" text="Service"/>
+        <ComboBox fx:id="rechercheServiceField" layoutX="25" layoutY="265" prefWidth="520" prefHeight="38"
                   promptText="Tous les services"
-                  style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+                  style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Button layoutX="25" layoutY="250" prefWidth="130" text="🔍 Rechercher"
-                onAction="#rechercherMedicaments"
-                style="-fx-background-color:#A07850; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;" />
+        <Button layoutX="25" layoutY="325" text="🔍 Rechercher" onAction="#rechercherMedicaments"
+                prefWidth="150" prefHeight="38"
+                style="-fx-background-color:#A07850; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;"/>
 
-        <Button layoutX="170" layoutY="250" prefWidth="100" text="Effacer"
-                onAction="#afficherTousMedicaments"
-                style="-fx-background-color:#E8D5B8; -fx-text-fill:#7A5535; -fx-background-radius:20; -fx-font-weight:bold;" />
+        <Button layoutX="205" layoutY="325" text="Effacer" onAction="#afficherTousMedicaments"
+                prefWidth="120" prefHeight="38"
+                style="-fx-background-color:#E8D5B8; -fx-text-fill:#7A5535; -fx-background-radius:20; -fx-font-weight:bold;"/>
     </Pane>
 
     <!-- FORMULAIRE -->
-    <Pane layoutX="630" layoutY="430" prefWidth="580" prefHeight="290"
-          style="-fx-background-color:#fffaf5; -fx-background-radius:14; -fx-border-color:#D4B99A; -fx-border-radius:14;">
+    <Pane layoutX="635" layoutY="530" prefWidth="580" prefHeight="460"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-        <Label layoutX="25" layoutY="20" text="📋 Informations Médicament"
-               style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+        <Label layoutX="25" layoutY="25" text="📋 Informations Médicament"
+               style="-fx-font-size:22; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+        <Separator layoutX="25" layoutY="62" prefWidth="530"/>
 
-        <Label layoutX="25" layoutY="60" text="Nom" />
-        <TextField fx:id="nomField" layoutX="25" layoutY="78" prefWidth="240" promptText="Nom"
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <Label layoutX="25" layoutY="85" text="Nom *"/>
+        <TextField fx:id="nomField" layoutX="25" layoutY="108" prefWidth="260" prefHeight="35"
+                   promptText="Nom du médicament"
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="305" layoutY="60" text="Stock" />
-        <TextField fx:id="stockField" layoutX="305" layoutY="78" prefWidth="240" promptText="0"
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <Label layoutX="310" layoutY="85" text="Stock"/>
+        <TextField fx:id="stockField" layoutX="310" layoutY="108" prefWidth="240" prefHeight="35"
+                   promptText="0"
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="25" layoutY="105" text="Description" />
-        <TextField fx:id="descriptionField" layoutX="25" layoutY="123" prefWidth="240" promptText="Description"
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <Label layoutX="25" layoutY="145" text="Catégorie"/>
+        <ComboBox fx:id="categorieField" layoutX="25" layoutY="168" prefWidth="260" prefHeight="35"
+                  promptText="--"
+                  style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="305" layoutY="105" text="Seuil min." />
-        <TextField fx:id="seuilField" layoutX="305" layoutY="123" prefWidth="240" promptText="0"
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <Label layoutX="310" layoutY="145" text="Seuil min."/>
+        <TextField fx:id="seuilField" layoutX="310" layoutY="168" prefWidth="240" prefHeight="35"
+                   promptText="0"
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="25" layoutY="150" text="Catégorie" />
-        <TextField fx:id="categorieField" layoutX="25" layoutY="168" prefWidth="240" promptText="Catégorie"
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <Label layoutX="25" layoutY="205" text="Dosage"/>
+        <TextField fx:id="dosageField" layoutX="25" layoutY="228" prefWidth="260" prefHeight="35"
+                   promptText="500mg"
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="305" layoutY="150" text="Forme" />
-        <TextField fx:id="formeField" layoutX="305" layoutY="168" prefWidth="240" promptText="Comprimé..."
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <Label layoutX="310" layoutY="205" text="Forme"/>
+        <TextField fx:id="formeField" layoutX="310" layoutY="228" prefWidth="240" prefHeight="35"
+                   promptText="Comprimé..."
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="25" layoutY="195" text="Dosage" />
-        <TextField fx:id="dosageField" layoutX="25" layoutY="213" prefWidth="240" promptText="500mg"
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <Label layoutX="25" layoutY="265" text="Service"/>
+        <TextField fx:id="serviceField" layoutX="25" layoutY="288" prefWidth="260" prefHeight="35"
+                   promptText="Urgence..."
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="305" layoutY="195" text="N° Lot" />
-        <TextField fx:id="lotField" layoutX="305" layoutY="213" prefWidth="240" promptText="LOT001"
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <Label layoutX="310" layoutY="265" text="Expiration"/>
+        <TextField fx:id="dateField" layoutX="310" layoutY="288" prefWidth="240" prefHeight="35"
+                   promptText="yyyy-mm-dd"
+                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D9B99A;"/>
 
-        <Label layoutX="25" layoutY="240" text="Qté Lot" />
-        <TextField fx:id="quantiteLotField" layoutX="25" layoutY="258" prefWidth="110" promptText="0"
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <HBox layoutX="25" layoutY="365" spacing="12">
+            <Button text="➕ Ajouter" onAction="#ajouterMedicament" prefWidth="120" prefHeight="38"
+                    style="-fx-background-color:#A07850; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;"/>
+            <Button text="➞ Modifier" onAction="#modifierMedicament" prefWidth="120" prefHeight="38"
+                    style="-fx-background-color:#8B633F; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;"/>
+            <Button text="🗑 Supprimer" onAction="#supprimerMedicament" prefWidth="130" prefHeight="38"
+                    style="-fx-background-color:#6B3E1F; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;"/>
+            <Button text="↻ Reset" onAction="#resetForm" prefWidth="100" prefHeight="38"
+                    style="-fx-background-color:#E8D5B8; -fx-text-fill:#7A5535; -fx-background-radius:20; -fx-font-weight:bold;"/>
+        </HBox>
 
-        <Label layoutX="150" layoutY="240" text="Expiration" />
-        <TextField fx:id="dateField" layoutX="150" layoutY="258" prefWidth="150" promptText="yyyy-mm-dd"
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
-
-        <Label layoutX="315" layoutY="240" text="Service" />
-        <TextField fx:id="serviceField" layoutX="315" layoutY="258" prefWidth="230" promptText="Urgence..."
-                   style="-fx-background-radius:20; -fx-border-radius:20; -fx-border-color:#D4B99A;" />
+        <TextField fx:id="descriptionField" visible="false" managed="false" text=""/>
+        <TextField fx:id="lotField" visible="false" managed="false" text="LOT001"/>
+        <TextField fx:id="quantiteLotField" visible="false" managed="false" text="0"/>
     </Pane>
 
-    <!-- BOUTONS CRUD -->
-    <HBox layoutX="690" layoutY="745" spacing="15">
-        <Button fx:id="ajouterBtn" text="➕ Ajouter" onAction="#ajouterMedicament" prefWidth="120"
-                style="-fx-background-color:#A07850; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;" />
-        <Button fx:id="modifierBtn" text="✏ Modifier" onAction="#modifierMedicament" prefWidth="120"
-                style="-fx-background-color:#8B633F; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;" />
-        <Button fx:id="supprimerBtn" text="🗑 Supprimer" onAction="#supprimerMedicament" prefWidth="120"
-                style="-fx-background-color:#6B3E1F; -fx-text-fill:white; -fx-background-radius:20; -fx-font-weight:bold;" />
-        <Button fx:id="resetBtn" text="↻ Reset" onAction="#resetForm" prefWidth="100"
-                style="-fx-background-color:#E8D5B8; -fx-text-fill:#7A5535; -fx-background-radius:20; -fx-font-weight:bold;" />
-    </HBox>
-
     <!-- TABLEAU -->
-    <Pane layoutX="30" layoutY="810" prefWidth="1180" prefHeight="330"
-          style="-fx-background-color:#fffaf5; -fx-background-radius:14; -fx-border-color:#D4B99A; -fx-border-radius:14;">
+    <Pane layoutX="35" layoutY="1020" prefWidth="1180" prefHeight="330"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-        <Label layoutX="25" layoutY="20" text="☰ Liste des Médicaments"
-               style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+        <Label layoutX="25" layoutY="25" text="☰ Liste des Médicaments"
+               style="-fx-font-size:22; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-        <TableView fx:id="medicamentTable" layoutX="25" layoutY="60" prefWidth="1130" prefHeight="240">
+        <TableView fx:id="medicamentTable"
+                   layoutX="25" layoutY="75"
+                   prefWidth="1125" prefHeight="220"
+                   style="-fx-background-color:#fffaf5; -fx-control-inner-background:#fffaf5; -fx-table-cell-border-color:#E8D8C8; -fx-border-color:transparent;">
             <columns>
-                <TableColumn fx:id="idColumn" text="ID" prefWidth="50" />
-                <TableColumn fx:id="nomColumn" text="Nom" prefWidth="120" />
-                <TableColumn fx:id="categorieColumn" text="Catégorie" prefWidth="120" />
-                <TableColumn fx:id="dosageColumn" text="Dosage" prefWidth="90" />
-                <TableColumn fx:id="formeColumn" text="Forme" prefWidth="90" />
-                <TableColumn fx:id="stockColumn" text="Stock" prefWidth="70" />
-                <TableColumn fx:id="seuilColumn" text="Seuil" prefWidth="70" />
-                <TableColumn fx:id="lotColumn" text="Lot" prefWidth="110" />
-                <TableColumn fx:id="quantiteLotColumn" text="Qté Lot" prefWidth="80" />
-                <TableColumn fx:id="dateColumn" text="Expiration" prefWidth="120" />
-                <TableColumn fx:id="serviceColumn" text="Service" prefWidth="110" />
-                <TableColumn fx:id="etatColumn" text="État" prefWidth="90" />
-                <TableColumn fx:id="alerteColumn" text="Alerte" prefWidth="90" />
+                <TableColumn fx:id="nomColumn" text="Nom"/>
+                <TableColumn fx:id="categorieColumn" text="Catégorie"/>
+                <TableColumn fx:id="dosageColumn" text="Dosage"/>
+                <TableColumn fx:id="formeColumn" text="Forme"/>
+                <TableColumn fx:id="stockColumn" text="Stock"/>
+                <TableColumn fx:id="seuilColumn" text="Seuil"/>
+                <TableColumn fx:id="expirationColumn" text="Expiration"/>
+                <TableColumn fx:id="serviceColumn" text="Service"/>
+                <TableColumn fx:id="etatColumn" text="État"/>
             </columns>
         </TableView>
     </Pane>

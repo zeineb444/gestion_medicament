@@ -8,45 +8,52 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="700.0" prefWidth="1500.0"
+<AnchorPane prefHeight="900.0"
+            prefWidth="1500.0"
+            style="-fx-background-color:#f5ede4;"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.MainController">
 
-    <!-- SIDEBAR -->
+    <!-- SIDEBAR ADMIN -->
     <VBox fx:id="sidebar"
+          layoutX="0"
+          layoutY="0"
           prefWidth="250.0"
-          prefHeight="700.0"
+          minWidth="250.0"
+          maxWidth="250.0"
           spacing="18"
-          style="-fx-background-color:#3b1f0e;">
+          style="-fx-background-color:#3b1f0e;"
+          AnchorPane.topAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0">
 
         <padding>
-            <Insets top="20" left="20"/>
+            <Insets top="20" left="20" right="20"/>
         </padding>
 
-        <!-- TOP -->
+        <!-- LOGO -->
         <HBox spacing="15">
-
             <Button text="☰"
                     onAction="#toggleSidebar"
+                    prefWidth="48"
+                    prefHeight="48"
                     style="-fx-background-color:#6b3e1f;
                            -fx-text-fill:white;
                            -fx-font-size:22;
-                           -fx-background-radius:10;" />
+                           -fx-background-radius:12;" />
 
-            <Label text="🏥 HospitaLink"
+            <Label fx:id="logoLabel"
+                   text="🏥 HospitaLink"
                    style="-fx-text-fill:#f5ede4;
                           -fx-font-size:22;
                           -fx-font-weight:bold;" />
-
         </HBox>
 
-        <Label text=""
-               prefHeight="15"/>
+        <Label text="" prefHeight="35"/>
 
-        <!-- NAVIGATION -->
-        <Label text="NAVIGATION"
-               style="-fx-text-fill:#b78b63;
+        <Label fx:id="navigationLabel"
+               text="NAVIGATION"
+               style="-fx-text-fill:#c49a6c;
                       -fx-font-size:14;
                       -fx-font-weight:bold;" />
 
@@ -54,57 +61,65 @@
         <Button fx:id="dashboardBtn"
                 text="📊 Dashboard"
                 onAction="#showDashboard"
-                prefWidth="190"
+                prefWidth="200"
+                prefHeight="42"
                 style="-fx-background-color:#c49a6c;
                        -fx-text-fill:white;
                        -fx-background-radius:10;
-                       -fx-font-size:15;" />
+                       -fx-font-size:15;
+                       -fx-font-weight:bold;
+                       -fx-alignment:center-left;
+                       -fx-padding:0 0 0 18;" />
 
-        <!-- MEDICAMENT -->
+        <!-- MÉDICAMENTS -->
         <Button fx:id="medicamentBtn"
                 text="💊 Médicaments"
                 onAction="#showMedicaments"
-                prefWidth="190"
+                prefWidth="200"
+                prefHeight="42"
                 style="-fx-background-color:transparent;
                        -fx-text-fill:white;
-                       -fx-font-size:15;" />
+                       -fx-font-size:15;
+                       -fx-font-weight:bold;
+                       -fx-alignment:center-left;
+                       -fx-padding:0 0 0 18;" />
 
-        <!-- SUIVI -->
-        <Button fx:id="suiviBtn"
-                text="🩺 Suivi Médical"
-                onAction="#showSuiviMedical"
-                prefWidth="190"
-                style="-fx-background-color:transparent;
-                       -fx-text-fill:white;
-                       -fx-font-size:15;" />
-
-        <!-- EMAIL -->
+        <!-- NOTIFICATIONS -->
         <Button fx:id="emailBtn"
-                text="✉ Emails envoyés"
+                text="🔔 Notifications"
                 onAction="#showEmails"
-                prefWidth="190"
+                prefWidth="200"
+                prefHeight="42"
                 style="-fx-background-color:transparent;
                        -fx-text-fill:white;
-                       -fx-font-size:15;" />
+                       -fx-font-size:15;
+                       -fx-font-weight:bold;
+                       -fx-alignment:center-left;
+                       -fx-padding:0 0 0 18;" />
 
     </VBox>
 
-    <!-- CONTENT -->
-    <ScrollPane layoutX="250.0"
-                prefHeight="900.0"
+    <!-- CONTENU PRINCIPAL -->
+    <ScrollPane fx:id="mainScrollPane"
+                layoutX="250.0"
+                layoutY="0"
                 prefWidth="1250.0"
                 fitToWidth="true"
                 pannable="true"
-                vbarPolicy="ALWAYS"
-                style="-fx-background:#f5ede4;">
+                hbarPolicy="NEVER"
+                vbarPolicy="AS_NEEDED"
+                style="-fx-background:#f5ede4;
+                       -fx-background-color:#f5ede4;"
+                AnchorPane.topAnchor="0.0"
+                AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="250.0"
+                AnchorPane.rightAnchor="0.0">
 
         <content>
-
             <AnchorPane fx:id="contentPane"
-                        prefHeight="950.0"
+                        prefHeight="900.0"
                         prefWidth="1250.0"
                         style="-fx-background-color:#f5ede4;" />
-
         </content>
 
     </ScrollPane>

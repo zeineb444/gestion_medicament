@@ -2,167 +2,160 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 
-<AnchorPane prefHeight="700.0"
-            prefWidth="1250.0"
+<AnchorPane prefHeight="920.0"
+            prefWidth="1180.0"
             style="-fx-background-color:#f5ede4;"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.DashboardController">
 
     <!-- TITRE -->
-    <Label layoutX="50"
-           layoutY="40"
+    <Label layoutX="40" layoutY="35"
            text="📊 Dashboard Hospitalier"
-           style="-fx-font-size:34;
-                  -fx-font-weight:bold;
-                  -fx-text-fill:#7a5535;" />
+           style="-fx-font-size:34; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-    <!-- CARDS -->
-    <HBox layoutX="50"
-          layoutY="130"
-          spacing="25">
+    <!-- VUE D'ENSEMBLE -->
+    <Pane layoutX="25" layoutY="120" prefWidth="1120" prefHeight="210"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-        <!-- TOTAL MEDICAMENTS -->
-        <VBox prefWidth="230"
-              prefHeight="140"
-              style="-fx-background-color:#fdf8f4;
-                     -fx-background-radius:18;
-                     -fx-border-color:#d8b89a;
-                     -fx-border-radius:18;
-                     -fx-padding:20;">
+        <Label layoutX="25" layoutY="20"
+               text="VUE D'ENSEMBLE"
+               style="-fx-font-size:18; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-            <Label text="💊 MÉDICAMENTS"
-                   style="-fx-font-size:15;
-                          -fx-font-weight:bold;
-                          -fx-text-fill:#7a6150;" />
-
+        <VBox layoutX="25" layoutY="65" prefWidth="250" prefHeight="120" spacing="6" alignment="CENTER"
+              style="-fx-background-color:#fdf8f4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+            <Label text="TOTAL MÉDICAMENTS"
+                   style="-fx-font-size:15; -fx-font-weight:bold; -fx-text-fill:#8B5E3C;" />
             <Label fx:id="totalMedicamentsLabel"
                    text="0"
-                   style="-fx-font-size:42;
-                          -fx-font-weight:bold;
-                          -fx-text-fill:#7a5535;" />
-
-            <Label text="en stock"
-                   style="-fx-font-size:14;
-                          -fx-text-fill:#7a6150;" />
-
+                   style="-fx-font-size:38; -fx-font-weight:bold; -fx-text-fill:#8B5E3C;" />
+            <Label text="références actives"
+                   style="-fx-font-size:13; -fx-text-fill:#8B5E3C;" />
         </VBox>
 
-        <!-- STOCK FAIBLE -->
-        <VBox prefWidth="230"
-              prefHeight="140"
-              style="-fx-background-color:#fdf8f4;
-                     -fx-background-radius:18;
-                     -fx-border-color:#d8b89a;
-                     -fx-border-radius:18;
-                     -fx-padding:20;">
+        <VBox layoutX="295" layoutY="65" prefWidth="250" prefHeight="120" spacing="6" alignment="CENTER"
+              style="-fx-background-color:#fdf8f4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+            <Label text="STOCK TOTAL"
+                   style="-fx-font-size:15; -fx-font-weight:bold; -fx-text-fill:#8B5E3C;" />
+            <Label fx:id="stockTotalLabel"
+                   text="0"
+                   style="-fx-font-size:38; -fx-font-weight:bold; -fx-text-fill:#2E7D32;" />
+            <Label text="unités disponibles"
+                   style="-fx-font-size:13; -fx-text-fill:#8B5E3C;" />
+        </VBox>
 
-            <Label text="⚠ STOCK FAIBLE"
-                   style="-fx-font-size:15;
-                          -fx-font-weight:bold;
-                          -fx-text-fill:#7a6150;" />
-
+        <VBox layoutX="565" layoutY="65" prefWidth="250" prefHeight="120" spacing="6" alignment="CENTER"
+              style="-fx-background-color:#fdf8f4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+            <Label text="STOCK FAIBLE"
+                   style="-fx-font-size:15; -fx-font-weight:bold; -fx-text-fill:#8B5E3C;" />
             <Label fx:id="stockFaibleLabel"
                    text="0"
-                   style="-fx-font-size:42;
-                          -fx-font-weight:bold;
-                          -fx-text-fill:#d68910;" />
-
-            <Label text="alertes"
-                   style="-fx-font-size:14;
-                          -fx-text-fill:#7a6150;" />
-
+                   style="-fx-font-size:38; -fx-font-weight:bold; -fx-text-fill:#C0392B;" />
+            <Label text="sous le seuil minimum"
+                   style="-fx-font-size:13; -fx-text-fill:#8B5E3C;" />
         </VBox>
 
-        <!-- EXPIRES -->
-        <VBox prefWidth="230"
-              prefHeight="140"
-              style="-fx-background-color:#fdf8f4;
-                     -fx-background-radius:18;
-                     -fx-border-color:#d8b89a;
-                     -fx-border-radius:18;
-                     -fx-padding:20;">
-
-            <Label text="⛔ EXPIRÉS"
-                   style="-fx-font-size:15;
-                          -fx-font-weight:bold;
-                          -fx-text-fill:#7a6150;" />
-
-            <Label fx:id="expiresLabel"
+        <VBox layoutX="835" layoutY="65" prefWidth="250" prefHeight="120" spacing="6" alignment="CENTER"
+              style="-fx-background-color:#fdf8f4; -fx-background-radius:14; -fx-border-color:#D9B99A; -fx-border-radius:14;">
+            <Label text="PATIENTS SUIVIS"
+                   style="-fx-font-size:15; -fx-font-weight:bold; -fx-text-fill:#8B5E3C;" />
+            <Label fx:id="patientsSuivisLabel"
                    text="0"
-                   style="-fx-font-size:42;
-                          -fx-font-weight:bold;
-                          -fx-text-fill:#c0392b;" />
-
-            <Label text="médicaments"
-                   style="-fx-font-size:14;
-                          -fx-text-fill:#7a6150;" />
-
+                   style="-fx-font-size:38; -fx-font-weight:bold; -fx-text-fill:#1565C0;" />
+            <Label text="suivis enregistrés"
+                   style="-fx-font-size:13; -fx-text-fill:#8B5E3C;" />
         </VBox>
 
-        <!-- SUIVIS -->
-        <VBox prefWidth="230"
-              prefHeight="140"
-              style="-fx-background-color:#fdf8f4;
-                     -fx-background-radius:18;
-                     -fx-border-color:#d8b89a;
-                     -fx-border-radius:18;
-                     -fx-padding:20;">
+    </Pane>
 
-            <Label text="🩺 SUIVIS"
-                   style="-fx-font-size:15;
-                          -fx-font-weight:bold;
-                          -fx-text-fill:#7a6150;" />
+    <!-- GRAPHIQUES -->
+    <Label layoutX="25" layoutY="355"
+           text="GRAPHIQUES"
+           style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-            <Label fx:id="suivisLabel"
-                   text="0"
-                   style="-fx-font-size:42;
-                          -fx-font-weight:bold;
-                          -fx-text-fill:#2471a3;" />
+    <!-- ÉVOLUTION DU STOCK -->
+    <Pane layoutX="25" layoutY="390" prefWidth="545" prefHeight="280"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-            <Label text="patients suivis"
-                   style="-fx-font-size:14;
-                          -fx-text-fill:#7a6150;" />
+        <Label layoutX="25" layoutY="22"
+               text="📈 ÉVOLUTION DU STOCK"
+               style="-fx-font-size:17; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-        </VBox>
+        <BarChart fx:id="stockBarChart"
+                  layoutX="20"
+                  layoutY="55"
+                  prefWidth="505"
+                  prefHeight="205"
+                  legendVisible="true"
+                  animated="false">
+            <xAxis>
+                <CategoryAxis side="BOTTOM"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis side="LEFT"/>
+            </yAxis>
+        </BarChart>
+    </Pane>
 
-    </HBox>
+    <!-- PAR CATÉGORIE -->
+    <Pane layoutX="595" layoutY="390" prefWidth="550" prefHeight="280"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-    <!-- SECTION -->
-    <VBox layoutX="50"
-          layoutY="340"
-          prefWidth="1080"
-          prefHeight="260"
-          style="-fx-background-color:#fdf8f4;
-                 -fx-background-radius:18;
-                 -fx-border-color:#d8b89a;
-                 -fx-border-radius:18;
-                 -fx-padding:25;">
+        <Label layoutX="25" layoutY="22"
+               text="◔ PAR CATÉGORIE"
+               style="-fx-font-size:17; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-        <Label text="📈 Activité hospitalière"
-               style="-fx-font-size:24;
-                      -fx-font-weight:bold;
-                      -fx-text-fill:#7a5535;" />
+        <PieChart fx:id="categoriePieChart"
+                  layoutX="45"
+                  layoutY="50"
+                  prefWidth="460"
+                  prefHeight="210"
+                  legendVisible="true"
+                  animated="false"/>
+    </Pane>
 
-        <Label text="• Surveillance des médicaments"
-               style="-fx-font-size:18;
-                      -fx-text-fill:#7a6150;" />
+    <!-- RÉFÉRENCES -->
+    <Label layoutX="25" layoutY="695"
+           text="RÉFÉRENCES"
+           style="-fx-font-size:16; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-        <Label text="• Contrôle des stocks faibles"
-               style="-fx-font-size:18;
-                      -fx-text-fill:#7a6150;" />
+    <!-- MÉDICAMENTS PAR SERVICE -->
+    <Pane layoutX="25" layoutY="720" prefWidth="545" prefHeight="180"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
 
-        <Label text="• Gestion des suivis médicaux"
-               style="-fx-font-size:18;
-                      -fx-text-fill:#7a6150;" />
+        <Label layoutX="25" layoutY="22"
+               text="🏥 MÉDICAMENTS PAR SERVICE"
+               style="-fx-font-size:17; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
 
-        <Label text="• Historique des alertes email"
-               style="-fx-font-size:18;
-                      -fx-text-fill:#7a6150;" />
+        <VBox fx:id="medicamentsParServiceBox"
+              layoutX="30"
+              layoutY="65"
+              prefWidth="485"
+              prefHeight="95"
+              spacing="0"/>
+    </Pane>
 
-    </VBox>
+    <!-- TOP MÉDICAMENTS -->
+    <Pane layoutX="595" layoutY="720" prefWidth="550" prefHeight="180"
+          style="-fx-background-color:#fffaf5; -fx-background-radius:18; -fx-border-color:#D9B99A; -fx-border-radius:18;">
+
+        <Label layoutX="25" layoutY="22"
+               text="🏆 TOP MÉDICAMENTS UTILISÉS"
+               style="-fx-font-size:17; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+
+        <VBox fx:id="topMedicamentsBox"
+              layoutX="30"
+              layoutY="65"
+              prefWidth="490"
+              prefHeight="95"
+              spacing="0"/>
+    </Pane>
 
 </AnchorPane>

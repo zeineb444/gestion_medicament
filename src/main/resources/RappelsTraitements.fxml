@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="900.0"
+            prefWidth="1250.0"
+            style="-fx-background-color:#f5ede4;"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.RappelsTraitementsController">
+
+    <Label layoutX="50"
+           layoutY="40"
+           text="⏰ Rappels Traitements"
+           style="-fx-font-size:34; -fx-font-weight:bold; -fx-text-fill:#7A5535;" />
+
+    <Label layoutX="52"
+           layoutY="90"
+           text="Traitements à administrer aux patients"
+           style="-fx-font-size:16; -fx-text-fill:#7A6150;" />
+
+    <VBox fx:id="rappelsBox"
+          layoutX="50"
+          layoutY="150"
+          prefWidth="1100"
+          spacing="16"
+          style="-fx-background-color:transparent;" />
+
+</AnchorPane>

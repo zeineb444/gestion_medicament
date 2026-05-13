@@ -1,23 +1,17 @@
 package controllers;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import models.Medicament;
 import service.MedicamentService;
 
 import java.sql.Date;
 import java.sql.SQLException;
-
-import javafx.geometry.Pos;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 
 public class MedicamentController {
 
@@ -27,7 +21,7 @@ public class MedicamentController {
 
     @FXML private TextField nomField;
     @FXML private TextField descriptionField;
-    @FXML private TextField categorieField;
+    @FXML private ComboBox<String> categorieField;
     @FXML private TextField dosageField;
     @FXML private TextField formeField;
     @FXML private TextField stockField;
@@ -41,55 +35,76 @@ public class MedicamentController {
     @FXML private Label okMedLabel;
     @FXML private Label faibleMedLabel;
     @FXML private Label expirationMedLabel;
-
     @FXML private VBox stockBarsBox;
 
     @FXML private TableView<Medicament> medicamentTable;
-    @FXML private TableColumn<Medicament, Integer> idColumn;
     @FXML private TableColumn<Medicament, String> nomColumn;
     @FXML private TableColumn<Medicament, String> categorieColumn;
     @FXML private TableColumn<Medicament, String> dosageColumn;
     @FXML private TableColumn<Medicament, String> formeColumn;
     @FXML private TableColumn<Medicament, Integer> stockColumn;
     @FXML private TableColumn<Medicament, Integer> seuilColumn;
-    @FXML private TableColumn<Medicament, String> lotColumn;
-    @FXML private TableColumn<Medicament, Integer> quantiteLotColumn;
-    @FXML private TableColumn<Medicament, Date> dateColumn;
+    @FXML private TableColumn<Medicament, Date> expirationColumn;
     @FXML private TableColumn<Medicament, String> serviceColumn;
     @FXML private TableColumn<Medicament, String> etatColumn;
-    @FXML private TableColumn<Medicament, String> alerteColumn;
-
 
     private final MedicamentService medicamentService = new MedicamentService();
 
+    private static Integer medicamentIdASelectionner = null;
+
+    public static void setMedicamentIdASelectionner(int id) {
+        medicamentIdASelectionner = id;
+    }
+
     @FXML
     public void initialize() {
+        medicamentTable.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         nomColumn.setCellValueFactory(new PropertyValueFactory<>("nom"));
         categorieColumn.setCellValueFactory(new PropertyValueFactory<>("categorie"));
         dosageColumn.setCellValueFactory(new PropertyValueFactory<>("dosage"));
         formeColumn.setCellValueFactory(new PropertyValueFactory<>("forme"));
         stockColumn.setCellValueFactory(new PropertyValueFactory<>("quantiteStock"));
         seuilColumn.setCellValueFactory(new PropertyValueFactory<>("seuilMinimum"));
-        lotColumn.setCellValueFactory(new PropertyValueFactory<>("numeroLot"));
-        quantiteLotColumn.setCellValueFactory(new PropertyValueFactory<>("quantiteLot"));
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("dateExpiration"));
+        expirationColumn.setCellValueFactory(new PropertyValueFactory<>("dateExpiration"));
         serviceColumn.setCellValueFactory(new PropertyValueFactory<>("serviceNom"));
         etatColumn.setCellValueFactory(new PropertyValueFactory<>("etatStock"));
-        alerteColumn.setCellValueFactory(new PropertyValueFactory<>("alerteExpiration"));
+
+        categorieField.getItems().addAll(
+                "Analgésique",
+                "Antibiotique",
+                "Anti-inflammatoire",
+                "Infection",
+                "Autre"
+        );
 
         rechercheCategorieField.getItems().addAll(
-                "", "Analgesique", "Infection", "Anti-inflammatoire", "Autre"
+                "",
+                "Analgésique",
+                "Antibiotique",
+                "Anti-inflammatoire",
+                "Infection",
+                "Autre"
         );
 
         rechercheServiceField.getItems().addAll(
-                "", "Urgence", "Pédiatrie", "Chirurgie", "Cardiologie"
+                "",
+                "Urgence",
+                "Pédiatrie",
+                "Chirurgie",
+                "Cardiologie"
         );
 
         chargerMedicaments();
 
         medicamentTable.setOnMouseClicked(event -> remplirChamps());
+
+        Platform.runLater(() -> {
+            if (medicamentIdASelectionner != null) {
+                selectionnerMedicamentParId(medicamentIdASelectionner);
+                medicamentIdASelectionner = null;
+            }
+        });
     }
 
     @FXML
@@ -97,8 +112,10 @@ public class MedicamentController {
         try {
             Medicament m = lireChamps();
             medicamentService.ajouter(m);
+
             chargerMedicaments();
             resetForm();
+
         } catch (Exception e) {
             afficherErreur("Erreur ajout", e.getMessage());
         }
@@ -110,7 +127,7 @@ public class MedicamentController {
             Medicament selected = medicamentTable.getSelectionModel().getSelectedItem();
 
             if (selected == null) {
-                afficherErreur("Erreur", "Veuillez sélectionner un médicament.");
+                afficherErreur("Erreur", "Sélectionnez un médicament.");
                 return;
             }
 
@@ -118,6 +135,7 @@ public class MedicamentController {
             m.setId(selected.getId());
 
             medicamentService.modifier(m);
+
             chargerMedicaments();
             resetForm();
 
@@ -132,11 +150,12 @@ public class MedicamentController {
             Medicament selected = medicamentTable.getSelectionModel().getSelectedItem();
 
             if (selected == null) {
-                afficherErreur("Erreur", "Veuillez sélectionner un médicament.");
+                afficherErreur("Erreur", "Sélectionnez un médicament.");
                 return;
             }
 
             medicamentService.supprimer(selected.getId());
+
             chargerMedicaments();
             resetForm();
 
@@ -149,43 +168,121 @@ public class MedicamentController {
     private void resetForm() {
         nomField.clear();
         descriptionField.clear();
-        categorieField.clear();
+        categorieField.setValue(null);
         dosageField.clear();
         formeField.clear();
         stockField.clear();
         seuilField.clear();
-        lotField.clear();
-        quantiteLotField.clear();
+        lotField.setText("LOT001");
+        quantiteLotField.setText("0");
         dateField.clear();
         serviceField.clear();
+
+        stockField.setStyle(
+                "-fx-background-radius:20;" +
+                        "-fx-border-radius:20;" +
+                        "-fx-border-color:#D9B99A;"
+        );
 
         medicamentTable.getSelectionModel().clearSelection();
     }
 
+    @FXML
+    private void rechercherMedicaments() {
+        try {
+            String nom = rechercheNomField.getText();
+            String categorie = rechercheCategorieField.getValue();
+            String service = rechercheServiceField.getValue();
+
+            if (nom == null) nom = "";
+            if (categorie == null) categorie = "";
+            if (service == null) service = "";
+
+            ObservableList<Medicament> list =
+                    FXCollections.observableArrayList(
+                            medicamentService.rechercher(nom, categorie, service)
+                    );
+
+            medicamentTable.setItems(list);
+            mettreAJourStatistiques(list);
+            mettreAJourBarresStock(list);
+
+        } catch (SQLException e) {
+            afficherErreur("Erreur SQL", e.getMessage());
+        }
+    }
+
+    @FXML
+    private void afficherTousMedicaments() {
+        rechercheNomField.clear();
+        rechercheCategorieField.setValue(null);
+        rechercheServiceField.setValue(null);
+
+        chargerMedicaments();
+    }
+
+    @FXML
+    private void filtrerExpiration() {
+        try {
+            ObservableList<Medicament> list = FXCollections.observableArrayList();
+
+            for (Medicament m : medicamentService.recuperer()) {
+                if ("BIENTOT".equalsIgnoreCase(m.getAlerteExpiration()) ||
+                        "EXPIRE".equalsIgnoreCase(m.getAlerteExpiration())) {
+                    list.add(m);
+                }
+            }
+
+            medicamentTable.setItems(list);
+            mettreAJourStatistiques(list);
+            mettreAJourBarresStock(list);
+
+        } catch (SQLException e) {
+            afficherErreur("Erreur SQL", e.getMessage());
+        }
+    }
+
+    private void chargerMedicaments() {
+        try {
+            ObservableList<Medicament> list =
+                    FXCollections.observableArrayList(medicamentService.recuperer());
+
+            medicamentTable.setItems(list);
+            mettreAJourStatistiques(list);
+            mettreAJourBarresStock(list);
+
+        } catch (SQLException e) {
+            afficherErreur("Erreur SQL", e.getMessage());
+        }
+    }
+
     private Medicament lireChamps() {
+        verifierChamps();
+
         Medicament m = new Medicament();
 
-        m.setNom(nomField.getText());
+        m.setNom(nomField.getText().trim());
         m.setDescription(descriptionField.getText());
-        m.setCategorie(categorieField.getText());
-        m.setDosage(dosageField.getText());
-        m.setForme(formeField.getText());
-        m.setQuantiteStock(Integer.parseInt(stockField.getText()));
-        m.setSeuilMinimum(Integer.parseInt(seuilField.getText()));
-        m.setNumeroLot(lotField.getText());
-        m.setQuantiteLot(Integer.parseInt(quantiteLotField.getText()));
-        m.setDateExpiration(Date.valueOf(dateField.getText()));
-        m.setServiceNom(serviceField.getText());
+        m.setCategorie(categorieField.getValue());
+        m.setDosage(dosageField.getText().trim());
+        m.setForme(formeField.getText().trim());
+        m.setQuantiteStock(Integer.parseInt(stockField.getText().trim()));
+        m.setSeuilMinimum(Integer.parseInt(seuilField.getText().trim()));
+        m.setNumeroLot(lotField.getText().trim());
+        m.setQuantiteLot(Integer.parseInt(quantiteLotField.getText().trim()));
+        m.setDateExpiration(Date.valueOf(dateField.getText().trim()));
+        m.setServiceNom(serviceField.getText().trim());
 
-        if (m.getQuantiteStock() <= m.getSeuilMinimum()) {
+        if (m.getQuantiteStock() == 0) {
+            m.setEtatStock("RUPTURE");
+        } else if (m.getQuantiteStock() <= m.getSeuilMinimum()) {
             m.setEtatStock("FAIBLE");
         } else {
             m.setEtatStock("OK");
         }
 
         Date aujourdHui = new Date(System.currentTimeMillis());
-        long difference = m.getDateExpiration().getTime() - aujourdHui.getTime();
-        long jours = difference / (1000 * 60 * 60 * 24);
+        long jours = (m.getDateExpiration().getTime() - aujourdHui.getTime()) / (1000 * 60 * 60 * 24);
 
         if (jours < 0) {
             m.setAlerteExpiration("EXPIRE");
@@ -198,13 +295,61 @@ public class MedicamentController {
         return m;
     }
 
+    private void verifierChamps() {
+        if (nomField.getText() == null || nomField.getText().trim().isEmpty()) {
+            throw new IllegalArgumentException("Le nom du médicament est obligatoire.");
+        }
+
+        if (stockField.getText() == null || stockField.getText().trim().isEmpty()) {
+            throw new IllegalArgumentException("Le stock est obligatoire.");
+        }
+
+        if (seuilField.getText() == null || seuilField.getText().trim().isEmpty()) {
+            throw new IllegalArgumentException("Le seuil minimum est obligatoire.");
+        }
+
+        if (dateField.getText() == null || dateField.getText().trim().isEmpty()) {
+            throw new IllegalArgumentException("La date d'expiration est obligatoire. Format : yyyy-mm-dd");
+        }
+
+        try {
+            int stock = Integer.parseInt(stockField.getText().trim());
+            if (stock < 0) {
+                throw new IllegalArgumentException("Le stock ne peut pas être négatif.");
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Le stock doit être un nombre.");
+        }
+
+        try {
+            int seuil = Integer.parseInt(seuilField.getText().trim());
+            if (seuil < 0) {
+                throw new IllegalArgumentException("Le seuil minimum ne peut pas être négatif.");
+            }
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Le seuil minimum doit être un nombre.");
+        }
+
+        try {
+            Integer.parseInt(quantiteLotField.getText().trim());
+        } catch (NumberFormatException e) {
+            quantiteLotField.setText("0");
+        }
+
+        try {
+            Date.valueOf(dateField.getText().trim());
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Date invalide. Utilisez le format yyyy-mm-dd. Exemple : 2026-05-01");
+        }
+    }
+
     private void remplirChamps() {
         Medicament m = medicamentTable.getSelectionModel().getSelectedItem();
 
         if (m != null) {
             nomField.setText(m.getNom());
             descriptionField.setText(m.getDescription());
-            categorieField.setText(m.getCategorie());
+            categorieField.setValue(m.getCategorie());
             dosageField.setText(m.getDosage());
             formeField.setText(m.getForme());
             stockField.setText(String.valueOf(m.getQuantiteStock()));
@@ -213,202 +358,102 @@ public class MedicamentController {
             quantiteLotField.setText(String.valueOf(m.getQuantiteLot()));
             dateField.setText(String.valueOf(m.getDateExpiration()));
             serviceField.setText(m.getServiceNom());
+
+            stockField.setStyle(
+                    "-fx-background-radius:20;" +
+                            "-fx-border-radius:20;" +
+                            "-fx-border-color:#D9B99A;"
+            );
         }
     }
 
-    @FXML
-    private void rechercherMedicaments() {
-        try {
-            String nom = rechercheNomField.getText();
+    private void selectionnerMedicamentParId(int id) {
+        for (Medicament m : medicamentTable.getItems()) {
+            if (m.getId() == id) {
+                medicamentTable.getSelectionModel().select(m);
+                medicamentTable.scrollTo(m);
+                remplirChamps();
 
-            String categorie = rechercheCategorieField.getValue();
-            String service = rechercheServiceField.getValue();
+                stockField.requestFocus();
+                stockField.setStyle(
+                        "-fx-background-radius:20;" +
+                                "-fx-border-radius:20;" +
+                                "-fx-border-color:#c0392b;" +
+                                "-fx-border-width:2;"
+                );
 
-            if (categorie == null) categorie = "";
-            if (service == null) service = "";
-
-            ObservableList<Medicament> list =
-                    FXCollections.observableArrayList(
-                            medicamentService.rechercher(nom, categorie, service)
-                    );
-
-            medicamentTable.setItems(list);
-
-        } catch (SQLException e) {
-            afficherErreur("Erreur SQL", e.getMessage());
+                return;
+            }
         }
     }
 
-    @FXML
-    private void afficherTousMedicaments() {
-        rechercheNomField.clear();
-        rechercheCategorieField.setValue(null);
-        rechercheServiceField.setValue(null);
-        chargerMedicaments();
-    }
+    private void mettreAJourStatistiques(ObservableList<Medicament> list) {
+        int total = list.size();
+        int ok = 0;
+        int faible = 0;
+        int expiration = 0;
 
-    @FXML
-    private void filtrerStockFaible() {
-        try {
-            ObservableList<Medicament> list = FXCollections.observableArrayList();
-
-            for (Medicament m : medicamentService.recuperer()) {
-                if ("FAIBLE".equals(m.getEtatStock()) || "RUPTURE".equals(m.getEtatStock())) {
-                    list.add(m);
-                }
+        for (Medicament m : list) {
+            if ("OK".equalsIgnoreCase(m.getEtatStock())) {
+                ok++;
             }
 
-            medicamentTable.setItems(list);
-
-        } catch (SQLException e) {
-            afficherErreur("Erreur SQL", e.getMessage());
-        }
-    }
-
-    @FXML
-    private void filtrerExpiration() {
-        try {
-            ObservableList<Medicament> list = FXCollections.observableArrayList();
-
-            for (Medicament m : medicamentService.recuperer()) {
-                if ("BIENTOT".equals(m.getAlerteExpiration()) || "EXPIRE".equals(m.getAlerteExpiration())) {
-                    list.add(m);
-                }
+            if ("FAIBLE".equalsIgnoreCase(m.getEtatStock()) ||
+                    "RUPTURE".equalsIgnoreCase(m.getEtatStock())) {
+                faible++;
             }
 
-            medicamentTable.setItems(list);
-
-        } catch (SQLException e) {
-            afficherErreur("Erreur SQL", e.getMessage());
-        }
-    }
-
-    private void mettreAJourStatistiques() {
-        try {
-            int total = medicamentService.recuperer().size();
-            int ok = 0;
-            int faible = 0;
-            int expiration = 0;
-
-            for (Medicament m : medicamentService.recuperer()) {
-                if ("OK".equals(m.getEtatStock())) {
-                    ok++;
-                }
-
-                if ("FAIBLE".equals(m.getEtatStock()) || "RUPTURE".equals(m.getEtatStock())) {
-                    faible++;
-                }
-
-                if ("BIENTOT".equals(m.getAlerteExpiration()) || "EXPIRE".equals(m.getAlerteExpiration())) {
-                    expiration++;
-                }
+            if ("BIENTOT".equalsIgnoreCase(m.getAlerteExpiration()) ||
+                    "EXPIRE".equalsIgnoreCase(m.getAlerteExpiration())) {
+                expiration++;
             }
-
-            totalMedLabel.setText(String.valueOf(total));
-            okMedLabel.setText(String.valueOf(ok));
-            faibleMedLabel.setText(String.valueOf(faible));
-            expirationMedLabel.setText(String.valueOf(expiration));
-
-        } catch (SQLException e) {
-            afficherErreur("Erreur SQL", e.getMessage());
         }
+
+        totalMedLabel.setText(String.valueOf(total));
+        okMedLabel.setText(String.valueOf(ok));
+        faibleMedLabel.setText(String.valueOf(faible));
+        expirationMedLabel.setText(String.valueOf(expiration));
     }
 
-    private void mettreAJourBarresStock() {
+    private void mettreAJourBarresStock(ObservableList<Medicament> list) {
         stockBarsBox.getChildren().clear();
 
-        try {
-            int count = 0;
-            java.util.HashSet<String> nomsAffiches = new java.util.HashSet<>();
+        for (Medicament m : list) {
+            HBox ligneText = new HBox();
+            ligneText.setPrefWidth(1080);
 
-            for (Medicament m : medicamentService.recuperer()) {
+            Label nom = new Label(m.getNom());
+            nom.setStyle("-fx-text-fill:#7A5535; -fx-font-size:15; -fx-font-weight:bold;");
 
-                if (nomsAffiches.contains(m.getNom())) {
-                    continue;
-                }
+            Region espace = new Region();
+            HBox.setHgrow(espace, Priority.ALWAYS);
 
-                nomsAffiches.add(m.getNom());
+            Label valeur = new Label(m.getQuantiteStock() + " / min " + m.getSeuilMinimum());
+            valeur.setStyle("-fx-text-fill:#7A5535; -fx-font-size:15;");
 
-                if (count >= 4) {
-                    break;
-                }
+            ligneText.getChildren().addAll(nom, espace, valeur);
 
-                VBox container = new VBox(4);
-                container.setPrefWidth(1120);
+            ProgressBar bar = new ProgressBar();
 
-                HBox top = new HBox();
+            double progress = (double) m.getQuantiteStock() / Math.max(m.getSeuilMinimum(), 1);
+            bar.setProgress(Math.min(progress, 1));
 
-                Label nom = new Label(m.getNom());
-                nom.setStyle("-fx-text-fill:#7A5535;");
+            bar.setPrefWidth(1080);
+            bar.setPrefHeight(12);
+            bar.setMinHeight(12);
 
-                Region spacer = new Region();
-                HBox.setHgrow(spacer, Priority.ALWAYS);
-
-                Label valeur = new Label(m.getQuantiteStock() + " / min " + m.getSeuilMinimum());
-                valeur.setStyle("-fx-text-fill:#7A5535;");
-
-                top.getChildren().addAll(nom, spacer, valeur);
-
-                double progress;
-                if (m.getQuantiteStock() > m.getSeuilMinimum()) {
-                    progress = 1.0;
-                } else {
-                    progress = (double) m.getQuantiteStock() / Math.max(m.getSeuilMinimum(), 1);
-                }
-
-                double width = 1120 * progress;
-
-                Pane background = new Pane();
-                background.setPrefWidth(1120);
-                background.setPrefHeight(8);
-                background.setStyle("-fx-background-color:#EFE3D6; -fx-background-radius:10;");
-
-                Pane fill = new Pane();
-                fill.setPrefWidth(width);
-                fill.setPrefHeight(8);
-
-                if ("BIENTOT".equals(m.getAlerteExpiration()) || "EXPIRE".equals(m.getAlerteExpiration())) {
-                    fill.setStyle("-fx-background-color:#C0392B; -fx-background-radius:10;");
-                } else if ("FAIBLE".equals(m.getEtatStock()) || "RUPTURE".equals(m.getEtatStock())) {
-                    fill.setStyle("-fx-background-color:#A07850; -fx-background-radius:10;");
-                } else {
-                    fill.setStyle("-fx-background-color:#2E7D32; -fx-background-radius:10;");
-                }
-
-                StackPane bar = new StackPane();
-                bar.setPrefWidth(1120);
-                bar.setPrefHeight(8);
-                bar.getChildren().addAll(background, fill);
-                StackPane.setAlignment(fill, Pos.CENTER_LEFT);
-
-                container.getChildren().addAll(top, bar);
-                stockBarsBox.getChildren().add(container);
-
-                count++;
+            if (m.getQuantiteStock() == 0) {
+                bar.setStyle("-fx-accent:#8B1E1E;");
+            } else if (m.getQuantiteStock() <= m.getSeuilMinimum()) {
+                bar.setStyle("-fx-accent:#C0392B;");
+            } else {
+                bar.setStyle("-fx-accent:#1B7F35;");
             }
 
-        } catch (SQLException e) {
-            afficherErreur("Erreur SQL", e.getMessage());
-        }
-    }
-    private void chargerMedicaments() {
+            VBox ligne = new VBox(3);
+            ligne.getChildren().addAll(ligneText, bar);
 
-        try {
-
-            ObservableList<Medicament> list =
-                    FXCollections.observableArrayList(
-                            medicamentService.recuperer()
-                    );
-
-            medicamentTable.setItems(list);
-
-            mettreAJourStatistiques();
-
-            mettreAJourBarresStock();
-
-        } catch (SQLException e) {
-
-            afficherErreur("Erreur SQL", e.getMessage());
+            stockBarsBox.getChildren().add(ligne);
         }
     }
 
